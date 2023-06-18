@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Task Manager</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background-color: #f2f2f2;
+    }
+
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+
+    #taskForm {
+      display: flex;
+      margin-bottom: 20px;
+    }
+
+    #taskInput {
+      flex: 1;
+      padding: 8px;
+      font-size: 16px;
+    }
+
+    #taskInput:focus {
+      outline: none;
+    }
+
+    button {
+      padding: 8px 16px;
+      font-size: 16px;
+      background-color: #333;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #555;
+    }
+
+    ul {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    li {
+      background-color: #fff;
+      padding: 10px;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+    }
+
+    li button {
+      margin-left: 10px;
+      background-color: #d9534f;
+    }
+
+    li button:hover {
+      background-color: #c9302c;
+    }
+  </style>
+</head>
+<body>
+  <h1>Task Manager</h1>
+  <form id="taskForm">
+    <input type="text" id="taskInput" placeholder="Enter a task">
+    <button type="submit">Add Task</button>
+  </form>
+  <ul id="taskList"></ul>
+
+  <script>
+    const tasks = [];
+    function renderTasks() {
+      const taskList = document.getElementById("taskList");
+      taskList.innerHTML = "";
+
+      tasks.forEach((task, index) => {
+        const listItem = document.createElement("li");
+        listItem.textContent = task.title;
+        listItem.innerHTML += `<button onclick="deleteTask(${index})">Delete</button>`;
+        taskList.appendChild(listItem);
+      });
+    }
+
+    function addTask(event) {
+      event.preventDefault();
+
+      const taskInput = document.getElementById("taskInput");
+      const title = taskInput.value;
+
+      if (title.trim() !== "") {
+        const task = { title };
+        tasks.push(task);
+        renderTasks();
+        taskInput.value = "";
+      }
+    }
+
+    function deleteTask(index) {
+      tasks.splice(index, 1);
+      renderTasks();
+    }
+
+    const taskForm = document.getElementById("taskForm");
+    taskForm.addEventListener("submit", addTask);
+  </script>
+</body>
+</html>
